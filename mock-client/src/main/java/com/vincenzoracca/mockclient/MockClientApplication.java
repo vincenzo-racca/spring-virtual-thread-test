@@ -25,7 +25,7 @@ public class MockClientApplication {
 		@PostMapping
 		public ResponseEntity<NameDTO> mapUppercase(@RequestBody NameDTO nameDTO) throws InterruptedException {
 			String upperCaseName = nameDTO.name().toUpperCase();
-			Thread.sleep(500L);
+			Thread.sleep(300L);
 			log.info("Uppercase done: {}", upperCaseName);
 			return ResponseEntity.ok(new NameDTO(upperCaseName));
 		}
