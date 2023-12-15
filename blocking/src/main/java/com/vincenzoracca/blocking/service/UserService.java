@@ -1,5 +1,6 @@
 package com.vincenzoracca.blocking.service;
 
+import com.vincenzoracca.blocking.config.ConfigProperties;
 import com.vincenzoracca.blocking.model.NameDTO;
 import com.vincenzoracca.blocking.model.User;
 import com.vincenzoracca.blocking.model.UserDTO;
@@ -22,6 +23,8 @@ public class UserService {
 
     private final RestTemplate restTemplate;
 
+    private final ConfigProperties configProperties;
+
 
     public Iterable<UserDTO> mapSurnamesInUpperCase(String name, String surname) {
         long start = Instant.now().toEpochMilli();
@@ -29,7 +32,7 @@ public class UserService {
         List<UserDTO> response = new ArrayList<>();
         Iterable<User> users = userJDBCRepository.findAllByNameAndSurname(name, surname);
         for (User user : users) {
-            NameDTO surnameDTOResponse = restTemplate.postForObject("http://localhost:8092/upper",
+            NameDTO surnameDTOResponse = restTemplate.postForObject(configProperties.getMockclientUrl() + "/upper",
                     new NameDTO(user.surname()), NameDTO.class);
             response.add(new UserDTO(name, surnameDTOResponse.name()));
         }

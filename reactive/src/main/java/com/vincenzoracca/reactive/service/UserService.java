@@ -1,5 +1,6 @@
 package com.vincenzoracca.reactive.service;
 
+import com.vincenzoracca.reactive.config.ConfigProperties;
 import com.vincenzoracca.reactive.model.NameDTO;
 import com.vincenzoracca.reactive.model.UserDTO;
 import com.vincenzoracca.reactive.repo.UserJDBCRepository;
@@ -20,13 +21,15 @@ public class UserService {
 
     private final WebClient webClient;
 
+    private final ConfigProperties configProperties;
+
 
     public Flux<UserDTO> mapSurnamesInUpperCase(String name, String surname) {
         long start = Instant.now().toEpochMilli();
         log.info("mapSurnamesInUpperCase started with parameters name: {}, surname: {}", name, surname);
         return userJDBCRepository.findAllByNameAndSurname(name, surname)
                 .flatMap(user -> webClient.post()
-                        .uri("http://localhost:8092/upper")
+                        .uri(configProperties.getMockclientUrl() + "/upper")
                         .body(new NameDTO(user.surname()), NameDTO.class)
                         .retrieve()
                         .bodyToMono(NameDTO.class))

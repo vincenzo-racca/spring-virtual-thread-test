@@ -1,5 +1,6 @@
 package com.vincenzoracca.virtualthreads.service;
 
+import com.vincenzoracca.virtualthreads.config.ConfigProperties;
 import com.vincenzoracca.virtualthreads.model.NameDTO;
 import com.vincenzoracca.virtualthreads.model.User;
 import com.vincenzoracca.virtualthreads.model.UserDTO;
@@ -22,6 +23,8 @@ public class UserService {
 
     private final RestClient restClient;
 
+    private final ConfigProperties configProperties;
+
 
     public Iterable<UserDTO> mapSurnamesInUpperCase(String name, String surname) {
         long start = Instant.now().toEpochMilli();
@@ -30,7 +33,7 @@ public class UserService {
         Iterable<User> users = userJDBCRepository.findAllByNameAndSurname(name, surname);
         for (User user : users) {
             NameDTO surnameDTOResponse = restClient.post()
-                    .uri("http://localhost:8092/upper")
+                    .uri(configProperties.getMockclientUrl() + "/upper")
                     .body(new NameDTO(user.surname()))
                     .retrieve()
                     .body(NameDTO.class);
