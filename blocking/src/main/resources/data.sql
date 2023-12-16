@@ -1,5 +1,4 @@
 DELETE FROM "users";
-DELETE FROM "normalized_users";
 
 INSERT INTO "users" (name, surname) VALUES ('Enzo', 'Racca');
 INSERT INTO "users" (name, surname) VALUES ('Maria', 'Rossi');
