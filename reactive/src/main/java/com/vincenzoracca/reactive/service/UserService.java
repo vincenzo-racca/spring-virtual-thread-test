@@ -30,7 +30,7 @@ public class UserService {
         return userJDBCRepository.findAllByNameAndSurname(name, surname)
                 .flatMap(user -> webClient.post()
                         .uri(configProperties.getMockclientUrl() + "/upper")
-                        .body(new NameDTO(user.surname()), NameDTO.class)
+                        .bodyValue(new NameDTO(user.surname()))
                         .retrieve()
                         .bodyToMono(NameDTO.class))
                 .map(nameDTO -> new UserDTO(name, nameDTO.name()))
