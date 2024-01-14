@@ -25,3 +25,31 @@ in /var/lib/pgsql/data/pg_hba.conf.
 
 #### Jmeter file
 [Jmeter Test](vt-vs-webflux.jmx)
+
+#### Command to run reactive app
+nohup java    -Dcom.sun.management.jmxremote \
+-Dcom.sun.management.jmxremote.port=1099 \
+-Dcom.sun.management.jmxremote.rmi.port=1099 \
+-Dcom.sun.management.jmxremote.ssl=false \
+-Dcom.sun.management.jmxremote.authenticate=false \
+-Dcom.sun.management.jmxremote.local.only=false \
+-Djava.rmi.server.hostname=<ip> \
+-Dspring.r2dbc.username=myuser \
+-Dspring.r2dbc.password=secret \
+-Dspring.r2dbc.url=r2dbc:postgresql://<ip_pg>:5432/mydatabase \
+-Dcustom.mockclient-url=<url_mock_client> \
+-jar spring-virtual-thread-test/reactive/target/reactive-0.0.1-SNAPSHOT.jar &
+
+#### Command to run vt app
+nohup java    -Dcom.sun.management.jmxremote \
+-Dcom.sun.management.jmxremote.port=1099 \
+-Dcom.sun.management.jmxremote.rmi.port=1099 \
+-Dcom.sun.management.jmxremote.ssl=false \
+-Dcom.sun.management.jmxremote.authenticate=false \
+-Dcom.sun.management.jmxremote.local.only=false \
+-Djava.rmi.server.hostname=<ip> \
+-Dspring.datasource.username=myuser \
+-Dspring.datasource.password=secret \
+-Dspring.datasource.url=jdbc:postgresql://<ip_pg>:5432/mydatabase \
+-Dcustom.mockclient-url=<url_mock_client> \
+-jar spring-virtual-thread-test/virtual-threads/target/virtual-threads-0.0.1-SNAPSHOT.jar &
