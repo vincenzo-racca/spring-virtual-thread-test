@@ -6,6 +6,7 @@ import com.vincenzoracca.reactive.model.UserDTO;
 import com.vincenzoracca.reactive.repo.UserJDBCRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -23,7 +24,7 @@ public class UserService {
 
     private final ConfigProperties configProperties;
 
-
+    @RegisterReflectionForBinding(NameDTO.class) //you need it for native image (see: https://docs.spring.io/spring-framework/docs/6.0.0/reference/html/core.html#aot-hints-register-reflection-for-binding)
     public Flux<UserDTO> mapSurnamesInUpperCase(String name, String surname) {
         long start = Instant.now().toEpochMilli();
         log.info("mapSurnamesInUpperCase started with parameters name: {}, surname: {}", name, surname);
