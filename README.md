@@ -64,13 +64,14 @@ nohup java    -Dcom.sun.management.jmxremote \
 
 Build native image:
 ```bash
+cd reactive
 ./mvnw clean spring-boot:build-image -DskipTests -Pnative
 ```
 Run native image:
 ```bash
 docker run --name reactive -p8080:8080 -p1099:1099 \
 -e SPRING_R2DBC_USERNAME=myuser -eSPRING_R2DBC_PASSWORD=secret \
--e SPRING_R2DBC_URL=r2dbc:postgresql:///<ip_pg>:5432/mydatabase \
+-e SPRING_R2DBC_URL=r2dbc:postgresql://<ip_pg>:5432/mydatabase \
 -e CUSTOM_MOCKCLIENT_URL=<url_mock_client> \
 -e JAVA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false -Djava.rmi.server.hostname=<ip>" \
 -d vincenzoracca/reactive-native:0.0.1-SNAPSHOT
