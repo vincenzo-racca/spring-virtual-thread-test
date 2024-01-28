@@ -67,7 +67,7 @@ Build native app:
 cd reactive
 ./mvnw -Pnative clean native:compile -DskipTests
 cd target
-./reactive -Dspring.r2dbc.url=jdbc:postgresql://<ip_pg>:5432/mydatabase \
+./reactive -Dspring.r2dbc.url=r2dbc:postgresql://<ip_pg>:5432/mydatabase \
  -Dspring.r2dbc.username=myuser -Dspring.r2dbc.password=secret -Dspring.sql.init.mode=never
  -Dcom.sun.management.jmxremote.port=1099 \
  -Dcom.sun.management.jmxremote.rmi.port=1099 \

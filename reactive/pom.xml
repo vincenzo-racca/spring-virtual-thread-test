@@ -104,7 +104,7 @@
 				<artifactId>native-maven-plugin</artifactId>
 				<configuration>
 					<buildArgs>
-						--enable-monitoring
+						--enable-monitoring=heapdump,jfr,jvmstat,jmxserver,jmxclient
 					</buildArgs>
 				</configuration>
 			</plugin>
