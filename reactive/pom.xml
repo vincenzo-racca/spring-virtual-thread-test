@@ -97,17 +97,16 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-					<image>
-						<env>
-							<BPL_JMX_ENABLED>true</BPL_JMX_ENABLED>
-							<BPL_JMX_PORT>1099</BPL_JMX_PORT>
-						</env>
-					</image>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.graalvm.buildtools</groupId>
 				<artifactId>native-maven-plugin</artifactId>
+				<configuration>
+					<buildArgs>
+						--enable-monitoring
+					</buildArgs>
+				</configuration>
 			</plugin>
 
 		</plugins>
