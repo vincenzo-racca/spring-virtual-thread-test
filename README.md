@@ -12,17 +12,6 @@ and add this:
 `host    all             all             0.0.0.0/0            md5` \
 in /var/lib/pgsql/data/pg_hba.conf.
 
-## JMX config
-```bash
--Dcom.sun.management.jmxremote \
--Dcom.sun.management.jmxremote.port=1099 \
--Dcom.sun.management.jmxremote.rmi.port=1099 \
--Dcom.sun.management.jmxremote.ssl=false \
--Dcom.sun.management.jmxremote.authenticate=false \
--Dcom.sun.management.jmxremote.local.only=false \
--Djava.rmi.server.hostname=127.0.0.1
-```
-
 ## Jmeter file
 [Jmeter file](vt-vs-webflux.jmx)
 
@@ -60,9 +49,22 @@ nohup java    -Dcom.sun.management.jmxremote \
 
 ## Test with reactive native image (using GRAALVM)
 
-### Command
+### Run Docker image:
+```bash
+cd reactive
+./mvnw clean spring-boot:build-image -DskipTests
+```
+```bash
+docker run --name reactive -p8080:8080 -p1099:1099 \
+-e SPRING_R2DBC_USERNAME=myuser -eSPRING_R2DBC_PASSWORD=secret \
+-e SPRING_R2DBC_URL=r2dbc:postgresql://<ip_pg>:5432/mydatabase \
+-e CUSTOM_MOCKCLIENT_URL=<url_mock_client> \
+-e JAVA_TOOL_OPTIONS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false -Djava.rmi.server.hostname=<ip>" \
+-d reactive:0.0.1-SNAPSHOT
 
-Build native app:
+```
+
+### Build native app:
 ```bash
 cd reactive
 ./mvnw -Pnative clean native:compile -DskipTests
@@ -77,19 +79,19 @@ cd target
  -Djava.rmi.server.hostname=<ip>
 ```
 
-Build native image:
+### Build native image:
 ```bash
 cd reactive
 ./mvnw clean spring-boot:build-image -DskipTests -Pnative
 ```
-Run native image:
+### Run native image:
 ```bash
+./mvnw clean spring-boot:build-image -DskipTests -Pnative
 docker run --name reactive -p8080:8080 -p1099:1099 \
 -e SPRING_R2DBC_USERNAME=myuser -eSPRING_R2DBC_PASSWORD=secret \
 -e SPRING_R2DBC_URL=r2dbc:postgresql://<ip_pg>:5432/mydatabase \
 -e CUSTOM_MOCKCLIENT_URL=<url_mock_client> \
--e JAVA_TOOL_OPTIONS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false -Djava.rmi.server.hostname=<ip>" \
--d vincenzoracca/reactive-native:0.0.1-SNAPSHOT
+-d reactive:0.0.1-SNAPSHOT -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.rmi.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.local.only=false -Djava.rmi.server.hostname=<ip>
 
 ```
 ### Issues encountered:

@@ -97,6 +97,13 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<image>
+						<env>
+							<BPL_JMX_ENABLED>true</BPL_JMX_ENABLED>
+							<BPL_JMX_PORT>1099</BPL_JMX_PORT>
+							<BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--enable-monitoring </BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+						</env>
+					</image>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -104,7 +111,7 @@
 				<artifactId>native-maven-plugin</artifactId>
 				<configuration>
 					<buildArgs>
-						--enable-monitoring=heapdump,jfr,jvmstat,jmxserver,jmxclient
+						--enable-monitoring
 					</buildArgs>
 				</configuration>
 			</plugin>
