@@ -86,7 +86,6 @@ cd reactive
 ```
 ### Run native image:
 ```bash
-./mvnw clean spring-boot:build-image -DskipTests -Pnative
 docker run --name reactive -p8080:8080 -p1099:1099 \
 -e SPRING_R2DBC_USERNAME=myuser -eSPRING_R2DBC_PASSWORD=secret \
 -e SPRING_R2DBC_URL=r2dbc:postgresql://<ip_pg>:5432/mydatabase \

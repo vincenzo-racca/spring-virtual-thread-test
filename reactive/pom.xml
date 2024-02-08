@@ -99,9 +99,10 @@
 					</excludes>
 					<image>
 						<env>
+							<BP_JVM_VERSION>21</BP_JVM_VERSION>
 							<BPL_JMX_ENABLED>true</BPL_JMX_ENABLED>
 							<BPL_JMX_PORT>1099</BPL_JMX_PORT>
-							<BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--enable-monitoring </BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+							<BP_NATIVE_IMAGE_BUILD_ARGUMENTS>--enable-monitoring=heapdump,jmxserver,jvmstat</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
 						</env>
 					</image>
 				</configuration>
